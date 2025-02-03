@@ -1,0 +1,292 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Message</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(120deg, #ffcccb, #ff6699);
+            text-align: center;
+            padding: 50px;
+            animation: fadeIn 2s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            margin: auto;
+            transform: scale(1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .container:hover {
+            transform: scale(1.05);
+        }
+        h1 {
+            color: #ff3366;
+        }
+        p {
+            font-size: 18px;
+            color: #333;
+            line-height: 1.5;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .btn {
+            font-size: 18px;
+            padding: 12px 24px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: 0.3s;
+        }
+        .yes {
+            background-color: #ff3366;
+            color: white;
+            box-shadow: 0px 4px 10px rgba(255, 51, 102, 0.5);
+        }
+        .no {
+            background-color: #333;
+            color: white;
+            position: absolute;
+        }
+        .heart {
+            font-size: 30px;
+            animation: heartbeat 1s infinite;
+        }
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Envelope styles */
+        .envelope {
+            width: 300px;
+            height: 180px;
+            background-color: #ffd1dc;
+            position: relative;
+            margin: 50px auto;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .envelope.opened .flap {
+            transform: rotateX(180deg);
+            transition: transform 1s;
+        }
+        .envelope .flap {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-color: #ff3366;
+            border-radius: 15px;
+            transform-origin: top;
+            transition: transform 1s;
+        }
+        .message {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            margin-top: 30px;
+        }
+        .message.show {
+            display: block;
+            animation: slideDown 1s;
+        }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Emojis popping animation */
+        .emoji {
+            font-size: 30px;
+            opacity: 0;
+            position: absolute;
+            animation: popUp 1s forwards;
+        }
+
+        @keyframes popUp {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+
+        .input-container {
+            margin-top: 20px;
+        }
+
+        /* Celebration message moving from top to bottom */
+        .celebration {
+            font-size: 30px;
+            color: #ff3366;
+            position: fixed;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: moveDown 5s forwards;
+        }
+
+        @keyframes moveDown {
+            0% { top: -50px; }
+            100% { top: 100vh; }
+        }
+
+        .celebration span {
+            font-size: 50px;
+            display: inline-block;
+            animation: floatEmojis 3s infinite;
+        }
+
+        @keyframes floatEmojis {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* Video styling */
+        .video-container {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="envelope" id="envelope" onclick="openEnvelope()">
+            <div class="flap"></div>
+            Open Envelope
+        </div>
+
+        <div class="input-container" id="nameInputContainer" style="display: none;">
+            <p>Enter the special secret name:</p>
+            <input type="text" id="specialName" placeholder="Enter name..." />
+            <button class="btn yes" onclick="validateName()">Submit</button>
+        </div>
+
+        <div class="message" id="message">
+            <h1>Heyy Pookie Bear! ❤️ <span class="heart">💖</span></h1>
+            <p>Every single day I wake up thanking God for bringing such a wonderful person into my life. 🥹💕
+                From the very beginning, you stole my heart, and even though I tried to deny it, you had a smooth entrance into it.
+                The moments we've shared, whether physically or virtually, have always been precious. 
+                You are a gorgeous woman with a beautiful soul, charming laughter, beautiful eyes, and the prettiest smile. 😊💕
+                
+                This month marks the month your beautiful soul was brought into this world. 🌎💖 Our love has grown stronger every day,
+                and when I promised you forever, I meant it from the bottom of my heart. 💘 Despite challenges and distance, my love for you never stopped but only grew deeper.
+                I promised you from the start that I will always be here for you and my love for you will never change.I will always support you and make sure you achieve your dreams.
+                I wish I had the chance to go down on one knee and ask you this question but despite the distance,I still carry your love everywhere daily with me and I had to make sure I make the moment special.
+ 
+                
+                I’ve been waiting for so long to finally ask you this question... ❤️
+            </p>
+            <h2>Pookie Bear,you mean the world to me....will you be my first and last Valentine? 🥹💕</h2>
+            <div class="buttons">
+                <button class="btn yes" onclick="sayYes()">Yes ❤️</button>
+                <button class="btn no" onmouseover="moveButton()">No 💔</button>
+            </div>
+        </div>
+
+        <!-- Video Section -->
+    <div class="video-container" id="videoContainer">
+        <video width="100%" controls autoplay>
+            <source src="Love video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+
+        <div id="finalMessage" class="message"></div> <!-- Div for final message -->
+    </div>
+
+    
+
+    <script>
+        let envelopeOpened = false;
+
+        function openEnvelope() {
+            if (!envelopeOpened) {
+                document.getElementById('envelope').classList.add('opened');
+                document.getElementById('nameInputContainer').style.display = 'block';
+                envelopeOpened = true;
+
+                // Emojis pop up randomly inside the envelope
+                createEmojis();
+            }
+        }
+
+        function createEmojis() {
+            let emojiContainer = document.getElementById('envelope');
+            for (let i = 0; i < 10; i++) {
+                let emoji = document.createElement('div');
+                emoji.classList.add('emoji');
+                emoji.innerText = "💖"; // Love emoji
+                emoji.style.top = `${Math.random() * 150}px`;
+                emoji.style.left = `${Math.random() * 250}px`;
+                emojiContainer.appendChild(emoji);
+            }
+        }
+
+        function validateName() {
+            let specialName = document.getElementById('specialName').value;
+            if (specialName.toLowerCase() === 'pookie') {
+                document.getElementById('nameInputContainer').style.display = 'none';
+                document.getElementById('message').classList.add('show');
+                document.getElementById('videoContainer').style.display = 'block'; // Show the video container
+            } else {
+                alert("Please enter the correct name baby😭!");
+            }
+        }
+
+        function sayYes() {
+            let finalMessage = document.getElementById('finalMessage');
+            finalMessage.innerHTML = "Yaaaaaaay!!! I LOVE YOU POOKIE BEAR SOO MUCH! 💖🥰💘";
+
+            // Create the celebration message
+            let celebration = document.createElement('div');
+            celebration.classList.add('celebration');
+            celebration.innerHTML = "<span> 💖🥰💘 Yaaaaaaay!!! 💖🥰💘 I LOVE YOU POOKIE BEAR SOO MUCH! 💖🥰💘 💖💐</span>";
+
+            // Append the celebration message to the body
+            document.body.appendChild(celebration);
+        }
+
+        function moveButton() {
+            let x = Math.random() * window.innerWidth * 0.6;
+            let y = Math.random() * window.innerHeight * 0.6;
+            document.querySelector('.no').style.left = `${x}px`;
+            document.querySelector('.no').style.top = `${y}px`;
+        }
+    </script>
+</body>
+</html>
